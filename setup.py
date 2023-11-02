@@ -25,7 +25,7 @@ setup(
     description="API to access hypernets data",
     long_description=read("README.md"),
     packages=find_packages(exclude=("tests",)),
-    install_requires=[],
+    install_requires=["numpy", "shapely", "python-dateutil"],
     extras_require={
         "dev": [
             "pre-commit",
