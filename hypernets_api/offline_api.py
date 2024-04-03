@@ -74,9 +74,7 @@ class OfflineHYPERNETSAPI(BaseAPI):
         query = self.make_query_hypernets(
             site_id=site, geom=geom, start_time=start_time, stop_time=stop_time, product_level=level, only_passed_qc=only_passed_qc
         )
-
         print(query)
-
         return self.query_db_hypernets(query)
 
     def query_db_hypernets(
@@ -91,10 +89,26 @@ class OfflineHYPERNETSAPI(BaseAPI):
             raise ValueError(
                 "no data found between the specified dates in the hypernets database"
             )
-        if self.overwrite_product_path:
-            for i in range(len(data)):
-                data[i] = list(data[i])
+        result_dicts=[]
+        for i in range(len(data)):
+            data[i] = list(data[i])
+            if self.overwrite_product_path:
                 data[i][-1] = os.path.join(self.data_path, *data[i][-2].split("/"), data[i][-3] + ".nc")
-        return np.array(data, dtype=object)
+            else:
+                data_dict={
+                    "sequence_name": data[i][0],
+                          "site_id": data[i][1],
+                "system_id": data[i][2],
+                "datetime_SEQ": data[i][3],
+                "datetime_start": data[i][4],
+                "datetime_end": data[i][5],
+                "latitude": data[i][6],
+                "longitude": data[i][7],
+                "product_name": data[i][8],
+                "rel_product_dir": data[i][9],
+                    "product_path": data[i][10]
+                }
+                result_dicts.append(data_dict)
+        return result_dicts
 
 

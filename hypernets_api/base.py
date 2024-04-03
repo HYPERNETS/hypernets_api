@@ -158,15 +158,15 @@ class BaseAPI(ABC):
                 cond += " AND longitude <= '%s'"%geom["lonmax"]
 
             if start_time:
-                cond += " AND datetime>= '%s'" % BaseAPI.convert_datetime(start_time)
+                cond += " AND datetime_SEQ>= '%s'" % BaseAPI.convert_datetime(start_time)
             if stop_time:
-                cond += " AND datetime<= '%s'" % BaseAPI.convert_datetime(stop_time)
+                cond += " AND datetime_SEQ<= '%s'" % BaseAPI.convert_datetime(stop_time)
 
             if timeofday_start:
-                cond += " AND time(datetime)>= '%s'" %timeofday_start
+                cond += " AND time(datetime_SEQ)>= '%s'" %timeofday_start
 
             if timeofday_end:
-                cond += " AND time(datetime)<= '%s'" % timeofday_end
+                cond += " AND time(datetime_SEQ)<= '%s'" % timeofday_end
 
             if product_level:
                 cond += " AND product_level = '%s'" % product_level
@@ -180,9 +180,9 @@ class BaseAPI(ABC):
                 cond += " AND percent_zero_flags>0"
 
         return (
-            "SELECT sequence_name,site_id,system_id,datetime,latitude,longitude,product_name,rel_product_dir,product_path FROM products WHERE "
+            "SELECT sequence_name,site_id,system_id,datetime_SEQ,datetime_start,datetime_end,latitude,longitude,product_name,rel_product_dir,product_path FROM products WHERE "
             + cond
-            + " ORDER BY datetime"
+            + " ORDER BY datetime_SEQ"
         )
 
 
