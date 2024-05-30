@@ -15,13 +15,14 @@ class OfflineHYPERNETSAPI(BaseAPI):
             else:
                 archive_path = os.path.abspath(r"\\eoserver\home\data\insitu\hypernets\archive")
 
-        if not ".db" in archive_path:
-            archive_path=os.path.join(archive_path,"archive.db")
+        if "archive.db" in archive_path:
+            archive_path=archive_path.replace("archive.db","")
 
         if not os.path.exists(archive_path):
             raise ValueError("The archive path does not exists: ",archive_path)
 
         self.archive_path=archive_path
+        self.archive_db_path=os.path.join(archive_path,"archive.db")
 
         if data_path is not None:
             self.data_path = data_path
@@ -80,7 +81,7 @@ class OfflineHYPERNETSAPI(BaseAPI):
     def query_db_hypernets(
         self, query,
     ):
-        engine = sqlite3.connect(self.archive_path)
+        engine = sqlite3.connect(self.archive_db_path)
         cursor = engine.cursor()
 
         cursor.execute(query)
