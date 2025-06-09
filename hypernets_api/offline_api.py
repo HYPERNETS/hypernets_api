@@ -12,6 +12,8 @@ class OfflineHYPERNETSAPI(BaseAPI):
         if archive_path is None:
             if socket.gethostname() == "eoserver.npl.co.uk":
                 archive_path = os.path.abspath(r"/home/data/insitu/hypernets/archive")
+            elif socket.gethostname() == "lyon.npl.co.uk":
+                archive_path = r"/mnt/t/data/insitu/hypernets/archive"
             else:
                 archive_path = os.path.abspath(r"\\eoserver\home\data\insitu\hypernets\archive")
 
