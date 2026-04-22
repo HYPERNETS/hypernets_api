@@ -96,7 +96,7 @@ class OfflineHYPERNETSAPI(BaseAPI):
         for i in range(len(data)):
             data[i] = list(data[i])
             if self.overwrite_product_path:
-                data[i][-1] = os.path.join(self.data_path, *data[i][-2].split("/"), data[i][-3] + ".nc")
+                data[i][-1] = os.path.join(self.data_path, *data[i][-2].split("/").split("\\"), data[i][-3] + ".nc")
             else:
                 data_dict={
                     "sequence_name": data[i][0],
