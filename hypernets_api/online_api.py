@@ -9,7 +9,7 @@ from hypernets_api.base import BaseAPI
 from hypernets_api.stac_client import LANDHYPERNETSTACClient
 
 class OnlineHYPERNETSAPI(BaseAPI):
-    def __init__(self,api_token=None,base_url="https://landhypernet.org",verify_ssl=True,limit=100):
+    def __init__(self,api_token:str, base_url="https://landhypernet.org.uk", verify_ssl=True, limit=100):
         self.client = LANDHYPERNETSTACClient(token=api_token, base_url=base_url, verify_ssl=verify_ssl)
         self.limit = limit
 

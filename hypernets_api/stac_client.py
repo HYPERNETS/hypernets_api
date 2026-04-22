@@ -12,9 +12,9 @@ from urllib.parse import urlencode
 class LANDHYPERNETSTACClient:
     """Simple client for accessing LANDHYPERNET STAC API"""
     
-    def __init__(self, api_token: str, base_url: str = "https://landhypernet.org", verify_ssl: bool = True):
+    def __init__(self, base_url: str = "https://landhypernet.org", token: Optional[str] = None, verify_ssl: bool = True):
         self.base_url = base_url.rstrip('/')
-        self.token = api_token
+        self.token = token
         self.verify_ssl = verify_ssl
         self.headers = {}
         if token:
