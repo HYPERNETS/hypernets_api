@@ -3,6 +3,7 @@ import sqlite3
 import socket
 import numpy as np
 import glob, os
+from pathlib import Path
 
 from hypernets_api.base import BaseAPI
 
@@ -106,8 +107,8 @@ class OfflineHYPERNETSAPI(BaseAPI):
                 "latitude": data[i][6],
                 "longitude": data[i][7],
                 "product_name": data[i][8],
-                "rel_product_dir": data[i][9],
-                    "product_path": data[i][10]
+                "rel_product_dir": Path(data[i][9]),
+                "product_path": Path(data[i][10])
                 }
                 result_dicts.append(data_dict)
         return result_dicts
