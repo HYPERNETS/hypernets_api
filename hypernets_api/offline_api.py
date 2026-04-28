@@ -3,12 +3,13 @@ import sqlite3
 import socket
 import numpy as np
 import glob, os
+import re
 
 from hypernets_api.base import BaseAPI
 
 
 class OfflineHYPERNETSAPI(BaseAPI):
-    def __init__(self,archive_path,data_path=None):
+    def __init__(self,archive_path,archive_db="archive.db",data_path=None):
         if archive_path is None:
             if socket.gethostname() == "eoserver.npl.co.uk":
                 archive_path = os.path.abspath(r"/home/data/insitu/hypernets/archive")
@@ -17,14 +18,14 @@ class OfflineHYPERNETSAPI(BaseAPI):
             else:
                 archive_path = os.path.abspath(r"\\eoserver\home\data\insitu\hypernets\archive")
 
-        if "archive.db" in archive_path:
-            archive_path=archive_path.replace("archive.db","")
+        if archive_db in archive_path:
+            archive_path=archive_path.replace(archive_db,"")
 
         if not os.path.exists(archive_path):
             raise ValueError("The archive path does not exists: ",archive_path)
 
         self.archive_path=archive_path
-        self.archive_db_path=os.path.join(archive_path,"archive.db")
+        self.archive_db_path=os.path.join(archive_path, archive_db)
 
         if data_path is not None:
             self.data_path = data_path
@@ -92,15 +93,23 @@ class OfflineHYPERNETSAPI(BaseAPI):
             raise ValueError(
                 "no data found between the specified dates in the hypernets database"
             )
-        result_dicts=[]
+        result_dicts = []
         for i in range(len(data)):
             data[i] = list(data[i])
+            
+            # Normalize any Windows-style separators from DB to the current OS
+            rel_prod_norm = data[i][9].replace('\\', os.sep).replace('/', os.sep)
+            prod_path_norm = data[i][10].replace('\\', os.sep).replace('/', os.sep)
+
+
             if self.overwrite_product_path:
-                data[i][-1] = os.path.join(self.data_path, *data[i][-2].split("/").split("\\"), data[i][-3] + ".nc")
-            else:
-                data_dict={
-                    "sequence_name": data[i][0],
-                          "site_id": data[i][1],
+                filename = data[i][-3] + ".nc"
+                data[i][-1] = os.path.abspath(os.path.join(self.data_path, rel_prod_norm, filename))
+            
+
+            data_dict = {
+                "sequence_name": data[i][0],
+                "site_id": data[i][1],
                 "system_id": data[i][2],
                 "datetime_SEQ": data[i][3],
                 "datetime_start": data[i][4],
@@ -108,10 +117,10 @@ class OfflineHYPERNETSAPI(BaseAPI):
                 "latitude": data[i][6],
                 "longitude": data[i][7],
                 "product_name": data[i][8],
-                "rel_product_dir": os.path.relpath(data[i][9]),
-                "product_path": os.path.abspath(data[i][10]),
-                }
-                result_dicts.append(data_dict)
+                "rel_product_dir": os.path.relpath(rel_prod_norm) if rel_prod_norm else "",
+                "product_path": os.path.abspath(prod_path_norm) if prod_path_norm else "",
+            }
+            result_dicts.append(data_dict)
         return result_dicts
 
 

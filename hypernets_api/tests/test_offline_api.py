@@ -12,7 +12,7 @@ example_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__fi
 
 class TestOfflineAPI(unittest.TestCase):
     def setUp(self) -> None:
-        self.api = OfflineHYPERNETSAPI(os.path.join(example_path,"example_archive","example_archive.db"),
+        self.api = OfflineHYPERNETSAPI(os.path.join(example_path,"example_archive"),"example_archive.db",
                                        data_path=os.path.join(example_path,"example_archive"))
 
     def test_query_filename(self):
@@ -20,8 +20,8 @@ class TestOfflineAPI(unittest.TestCase):
 
     def test_query(self):
         query_dict = {"site": "GHNA",
-                      "start_time": "2022-06-06T09:00:00",
-                      "stop_time": "2022-06-06T10:00:00",
+                      "start_time": "2022-06-17T09:00:00",
+                      "stop_time": "2022-06-17T11:00:00",
                       "level": "L_L2A", }
         assert (len(self.api.query(query_dict)) == 1)
 
