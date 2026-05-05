@@ -54,9 +54,33 @@ class OfflineHYPERNETSAPI(BaseAPI):
             geom=None
 
         if "collection" in query_dict:
-            level=query_dict["collection"][-3::]
-        elif "level" in query_dict:
-            level=query_dict["level"]
+            collection=query_dict["collection"]
+            level_map = {
+                "L1B_RAD": "L_L1B_RAD",
+                "L1B_IRR": "L_L1B_IRR",
+                "L2A": "L_L2A",
+                "L1D_RAD": "L_L1D_RAD",
+                "L1D_IRR": "L_L1D_IRR",
+                "L2B": "L_L2B",
+                "L2A_REF": "L_L2A",
+                "L2B_REF": "L_L2B"
+            }
+            level = level_map.get(collection, None)
+        elif "product_level" in query_dict:
+            level=query_dict["product_level"]
+            level_map = {
+                "L1B_RAD": "L_L1B_RAD",
+                "L1B_IRR": "L_L1B_IRR",
+                "L2A": "L_L2A",
+                "L1D_RAD": "L_L1D_RAD",
+                "L1D_IRR": "L_L1D_IRR",
+                "L2B": "L_L2B",
+                "L2A_REF": "L_L2A",
+                "L2B_REF": "L_L2B"
+            }
+            if level not in level_map and level not in level_map.values():
+                raise ValueError("product_level should be one of: L1B_RAD, L1B_IRR, L2A, L1D_RAD, L1D_IRR, L2B, L2A_REF or L2B_REF")
+            level = level_map.get(level, level)
         else:
             level=None
 

@@ -170,8 +170,6 @@ class BaseAPI(ABC):
 
             if product_level:
                 cond += " AND product_level = '%s'" % product_level
-                if product_level == "L2A":
-                    raise ValueError("product_level should likely be L_L2A")
 
             if cond[0:4] == " AND":
                 cond = cond[4:]

@@ -22,7 +22,7 @@ class TestOfflineAPI(unittest.TestCase):
         query_dict = {"site": "GHNA",
                       "start_time": "2022-06-17T09:00:00",
                       "stop_time": "2022-06-17T11:00:00",
-                      "level": "L_L2A", }
+                      "product_level": "L_L2A", }
         assert (len(self.api.query(query_dict)) == 1)
 
         query_dict = {"geom": {
@@ -31,7 +31,7 @@ class TestOfflineAPI(unittest.TestCase):
                         "latmax": 51.77808426115803,
                         "lonmax": -1.3370120963843524,
                         },
-                      "level": "L_L2A", }
+                      "product_level": "L_L2A", }
         print(self.api.query(query_dict))
         assert (len(self.api.query(query_dict)) == 1)
 
