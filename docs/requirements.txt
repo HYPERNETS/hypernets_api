@@ -1,0 +1,6 @@
+sphinx
+sphinx_book_theme
+sphinx_design
+sphinx-automodapi
+IPython
+napoleon

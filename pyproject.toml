@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=64", "wheel", "versioneer[toml]==0.29"]
+requires = ["setuptools>=64", "wheel", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -55,14 +55,6 @@ Documentation = "https://eco.gitlab-docs.npl.co.uk/tools/hypernets_api"
 where = ["."]
 include = ["hypernets_api*"]
 
-[tool.versioneer]
-VCS = "git"
-style = "pep440"
-versionfile_source = "hypernets_api/_version.py"
-versionfile_build = "hypernets_api/_version.py"
-tag_prefix = ""
-parentdir_prefix = ""
-
 [tool.mypy]
 allow_untyped_globals = true
 ignore_missing_imports = true
@@ -72,8 +64,13 @@ module = ["hypernets_api.tests.*", "hypernets_api.*.tests.*"]
 ignore_errors = true
 
 [[tool.mypy.overrides]]
-module = ["setup", "versioneer"]
+module = ["setup"]
 ignore_errors = true
+
+[tool.setuptools_scm]
+write_to = "hypernets_api/_version.py"
+root = "."
+relative_to = "pyproject.toml"
 
 [tool.pytest.ini_options]
 testpaths = [

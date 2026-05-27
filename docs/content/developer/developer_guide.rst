@@ -19,7 +19,7 @@ The package lives under `hypernets_api/` and includes the following modules:
 - `factory.py` — factory class for selecting offline or online APIs
 
 Package metadata, dependencies, and versioning are configured in `pyproject.toml`.
-Version management uses `versioneer.py` with git tags to automatically determine
+Version management uses `setuptools_scm` with git tags to automatically determine
 the package version at build time.
 
 Tests
