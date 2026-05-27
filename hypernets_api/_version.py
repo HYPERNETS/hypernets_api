@@ -554,3 +554,11 @@ def get_versions():
         "error": "unable to compute version",
         "date": None,
     }
+
+
+try:
+    # Provide a simple attribute for consumers that import __version__.
+    __version__ = get_versions()["version"]
+except Exception:
+    __version__ = "0+unknown"
+
