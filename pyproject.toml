@@ -68,9 +68,7 @@ module = ["setup"]
 ignore_errors = true
 
 [tool.setuptools_scm]
-write_to = "hypernets_api/_version.py"
-root = "."
-relative_to = "pyproject.toml"
+# version inferred from git tags (e.g. v0.1.0); no extra config needed
 
 [tool.pytest.ini_options]
 testpaths = [
