@@ -111,40 +111,43 @@ class OfflineHYPERNETSAPI(BaseAPI):
         engine = sqlite3.connect(self.archive_db_path)
         cursor = engine.cursor()
 
-        cursor.execute(query)
-        data = cursor.fetchall()
-        if len(data) == 0:
-            raise ValueError(
-                "no data found between the specified dates in the hypernets database"
-            )
-        result_dicts = []
-        for i in range(len(data)):
-            data[i] = list(data[i])
-            
-            # Normalize any Windows-style separators from DB to the current OS
-            rel_prod_norm = data[i][9].replace('\\', os.sep).replace('/', os.sep)
-            prod_path_norm = data[i][10].replace('\\', os.sep).replace('/', os.sep)
+        try:
+            cursor.execute(query)
+            data = cursor.fetchall()
+            if len(data) == 0:
+                raise ValueError(
+                    "no data found between the specified dates in the hypernets database"
+                )
+            result_dicts = []
+            for i in range(len(data)):
+                data[i] = list(data[i])
+                
+                # Normalize any Windows-style separators from DB to the current OS
+                rel_prod_norm = data[i][9].replace('\\', os.sep).replace('/', os.sep)
+                prod_path_norm = data[i][10].replace('\\', os.sep).replace('/', os.sep)
 
 
-            if self.overwrite_product_path:
-                filename = data[i][-3] + ".nc"
-                data[i][-1] = os.path.abspath(os.path.join(self.data_path, rel_prod_norm, filename))
-            
+                if self.overwrite_product_path:
+                    filename = data[i][-3] + ".nc"
+                    prod_path_norm = os.path.abspath(os.path.join(self.data_path, rel_prod_norm, filename))
+                
 
-            data_dict = {
-                "sequence_name": data[i][0],
-                "site_id": data[i][1],
-                "system_id": data[i][2],
-                "datetime_SEQ": data[i][3],
-                "datetime_start": data[i][4],
-                "datetime_end": data[i][5],
-                "latitude": data[i][6],
-                "longitude": data[i][7],
-                "product_name": data[i][8],
-                "rel_product_dir": os.path.relpath(rel_prod_norm) if rel_prod_norm else "",
-                "product_path": os.path.abspath(prod_path_norm) if prod_path_norm else "",
-            }
-            result_dicts.append(data_dict)
-        return result_dicts
+                data_dict = {
+                    "sequence_name": data[i][0],
+                    "site_id": data[i][1],
+                    "system_id": data[i][2],
+                    "datetime_SEQ": data[i][3],
+                    "datetime_start": data[i][4],
+                    "datetime_end": data[i][5],
+                    "latitude": data[i][6],
+                    "longitude": data[i][7],
+                    "product_name": data[i][8],
+                    "rel_product_dir": os.path.relpath(rel_prod_norm) if rel_prod_norm else "",
+                    "product_path": os.path.abspath(prod_path_norm) if prod_path_norm else "",
+                }
+                result_dicts.append(data_dict)
+            return result_dicts
+        finally:
+            engine.close()
 
 

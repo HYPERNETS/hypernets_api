@@ -1,0 +1,100 @@
+[build-system]
+requires = ["setuptools>=64", "wheel", "versioneer[toml]==0.29"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hypernets_api"
+dynamic = ["version"]
+description = "API to access hypernets data"
+readme = "README.md"
+license-files = ["LICENSE"]
+authors = [{name = "Pieter De Vis", email = "pieter.de.vis@npl.co.uk"}]
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "numpy",
+    "shapely",
+    "python-dateutil",
+    "requests",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pre-commit",
+    "tox",
+    "pytest",
+    "pytest-cov",
+    "pytest-html",
+    "black",
+    "mypy",
+    "IPython",
+]
+docs = [
+    "sphinx",
+    "sphinx_book_theme",
+    "sphinx_design",
+    "sphinx-automodapi",
+    "IPython",
+    "napoleon",
+]
+
+[project.urls]
+Homepage = "https://gitlab.npl.co.uk/eco/tools/hypernets_api"
+Documentation = "https://eco.gitlab-docs.npl.co.uk/tools/hypernets_api"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hypernets_api*"]
+
+[tool.versioneer]
+VCS = "git"
+style = "pep440"
+versionfile_source = "hypernets_api/_version.py"
+versionfile_build = "hypernets_api/_version.py"
+tag_prefix = ""
+parentdir_prefix = ""
+
+[tool.mypy]
+allow_untyped_globals = true
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["hypernets_api.tests.*", "hypernets_api.*.tests.*"]
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = ["setup", "versioneer"]
+ignore_errors = true
+
+[tool.pytest.ini_options]
+testpaths = [
+    "hypernets_api/tests",
+    "tests",
+]
+addopts = "--strict-markers"
+
+[tool.black]
+line-length = 120
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | docs
+)/
+'''

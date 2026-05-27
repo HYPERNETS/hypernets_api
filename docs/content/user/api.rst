@@ -6,11 +6,18 @@
 API reference
 #############
 
-This page provides an auto-generated summary of **hypernets_api**'s API.
-For more details and examples, refer to the relevant chapters in the main part of the
-documentation.
+This page provides a reference for the main hypernets_api modules and classes.
+Use the links below to read detailed documentation for each supported API component.
 
-.. add package's API's functions, classes, methods etc. to the below toctree
+.. toctree::
+   :maxdepth: 2
 
-.. autosummary::
-   :toctree: generated/
+   base_api
+   offline_api
+   online_api
+   factory
+   stac_client
+
+
+.. note::
+   The following pages document the current public interface of the package.

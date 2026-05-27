@@ -1,8 +1,7 @@
 """hypernets_api - API to access hypernets data"""
 
 __author__ = "Pieter De Vis <pieter.de.vis@npl.co.uk>"
-__all__ = ["OnlineHYPERNETSAPI",
-           "OfflineHYPERNETSAPI"]
+__all__ = ["HYPERNETSAPI", "OfflineHYPERNETSAPI"]
 
 from ._version import get_versions
 

@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 import datetime
 from dateutil.parser import parse
 import shapely
+import shapely.wkt
 
 __author__ = "Pieter De Vis <pieter.de.vis@npl.co.uk>"
 __all__ = ["BaseAPI"]

@@ -3,11 +3,11 @@
 __author__ = "Pieter De Vis <pieter.de.vis@npl.co.uk>"
 __all__ = ["APIFactory"]
 
-from hypernets_api.offline_api import OfflineAPI
-from hypernets_api.online_api import OnlineHYPERNETSAPI
+from hypernets_api.offline_api import OfflineHYPERNETSAPI
+from hypernets_api.online_api import HYPERNETSAPI
 
 # plot types by name
-API_TYPES = {"offline": OfflineAPI, "online": OnlineHYPERNETSAPI}
+API_TYPES = {"offline": OfflineHYPERNETSAPI, "online": HYPERNETSAPI}
 
 
 class APIFactory:
