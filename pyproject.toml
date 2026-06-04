@@ -9,14 +9,11 @@ description = "API to access hypernets data"
 readme = "README.md"
 license-files = ["LICENSE"]
 authors = [{name = "Pieter De Vis", email = "pieter.de.vis@npl.co.uk"}]
-requires-python = ">=3.8"
+requires-python = ">=3.11"
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
