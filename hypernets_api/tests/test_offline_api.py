@@ -98,6 +98,20 @@ class TestOfflineHYPERNETSAPIUnit(unittest.TestCase):
         with self.assertRaises(ValueError):
             OfflineHYPERNETSAPI("/does/not/exist", archive_db="test.db")
 
+    def test_init_raises_for_missing_archive_db(self):
+        with self.assertRaises(ValueError):
+            OfflineHYPERNETSAPI(str(self.archive_path), archive_db="missing.db")
+
+    def test_init_raises_for_missing_products_table(self):
+        wrong_db_path = self.archive_path / "wrong.db"
+        connection = sqlite3.connect(wrong_db_path)
+        connection.execute("CREATE TABLE other_table (id INTEGER)")
+        connection.commit()
+        connection.close()
+
+        with self.assertRaises(ValueError):
+            OfflineHYPERNETSAPI(str(self.archive_path), archive_db="wrong.db")
+
     def test_query_filename_finds_single_file(self):
         nested_dir = self.archive_path / "a" / "b" / "c" / "d" / "e"
         nested_dir.mkdir(parents=True)

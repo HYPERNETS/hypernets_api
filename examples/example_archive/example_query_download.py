@@ -10,12 +10,11 @@ api = HYPERNETSAPI(api_token)
 query_dict = {
     "site": "JSIT",
     "product_level": "L2B",
-    "start_time": '2025-07-27',
-    "stop_time": '2025-07-28',
+    "start_time": '2025-07-27T09:00:00Z',
+    "stop_time": '2025-07-27T10:00:00Z',
 }
 
 results = api.query(query_dict)
 print(results)
 paths = api.download_results(results, output_path=output_path)
 print(paths)
-

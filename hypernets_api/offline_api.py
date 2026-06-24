@@ -24,14 +24,43 @@ class OfflineHYPERNETSAPI(BaseAPI):
         if not os.path.exists(archive_path):
             raise ValueError("The archive path does not exists: ",archive_path)
 
-        self.archive_path=archive_path
-        self.archive_db_path=os.path.join(archive_path, archive_db)
+        self.archive_path = archive_path
+        self.archive_db_path = os.path.join(archive_path, archive_db)
+
+        if not os.path.exists(self.archive_db_path):
+            raise ValueError(
+                "The archive database does not exist: {}".format(self.archive_db_path)
+            )
+
+        engine = None
+        try:
+            engine = sqlite3.connect(self.archive_db_path)
+            cursor = engine.cursor()
+            cursor.execute(
+                "SELECT name FROM sqlite_master WHERE type='table' AND name='products';"
+            )
+            if cursor.fetchone() is None:
+                raise ValueError(
+                    "The archive database is missing the required 'products' table: {}".format(
+                        self.archive_db_path
+                    )
+                )
+        except sqlite3.DatabaseError as exc:
+            raise ValueError(
+                "Unable to read archive database '{}': {}".format(self.archive_db_path, exc)
+            ) from exc
+        
+        finally:
+            if engine is not None:
+                engine.close()
 
         if data_path is not None:
             self.data_path = data_path
             self.overwrite_product_path = True
         else:
             self.overwrite_product_path = False
+
+        
 
     def query_filename(self,filename):
         files = glob.glob(self.archive_path+"/*/*/*/*/*/"+filename)
